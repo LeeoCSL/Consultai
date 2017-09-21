@@ -82,12 +82,12 @@ public class UpdatingService extends IntentService {
                 editor.commit();
 
                 Bundle bundle = new Bundle();
-                bundle.putString("email", LoginActivity.emailParam);
-                bundle.putString("email_google", LoginActivity.emailGoogle);
-                bundle.putString("email_facebook", LoginActivity.emailFB);
-                bundle.putString("link_fb", LoginActivity.linkFB);
-                bundle.putString("nome", LoginActivity.nomeFB);
-                bundle.putString("id", LoginActivity.idFacebook);
+
+                bundle.putString("email", sharedPref.getString("emailParam", " "));
+                bundle.putString("email_google", sharedPref.getString("emailGoogle", ""));
+                bundle.putString("nome",sharedPref.getString("nome", ""));
+                //TODO fb idade sexo tel
+                bundle.putString("email_facebook", sharedPref.getString("emailFB", ""));
                 bundle.putFloat("valor_debitado", valorDiario);
                 mFirebaseAnalytics.logEvent("debito_diario", bundle);
 

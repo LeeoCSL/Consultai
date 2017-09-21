@@ -40,6 +40,7 @@ public class DialogWeek extends DialogFragment {
         final String[] items = {"Segunda-feira", "Terça-feira","Quarta-feira","Quinta-feira",
                 "Sexta-feira","Sábado","Domingo"};
 
+
         mDiasSemana = new TextView[items.length];
 
         mCheckeds = new boolean[items.length];
@@ -72,11 +73,14 @@ public class DialogWeek extends DialogFragment {
                 SharedPreferences.Editor editor = sharedPref.edit();
                 Bundle bundle = new Bundle();
                 for(int i = 0; i < items.length; i++){
-                    bundle.putBoolean(items[i].toLowerCase(), mCheckeds[i]);
+                    bundle.putBoolean(items[i].replace("-", "_").toLowerCase(), mCheckeds[i]);
                     editor.putBoolean(items[i].toLowerCase(), mCheckeds[i]);
                     editor.commit();
                 }
-                bundle.putString("email", LoginActivity.emailParam);
+                bundle.putString("email", sharedPref.getString("emailParam", " "));
+                bundle.putString("email_google", sharedPref.getString("emailGoogle", ""));
+                bundle.putString("email_facebook", sharedPref.getString("emailFB", ""));
+
                 mFirebaseAnalytics.logEvent("selecao_dias_semana", bundle);
                 dialog.dismiss();
             }

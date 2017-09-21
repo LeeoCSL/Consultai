@@ -4,6 +4,8 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/CarregaI2.iml" filepath="$PROJECT_DIR$/CarregaI2.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/consultai.iml" filepath="$PROJECT_DIR$/consultai.iml" />
       <module fileurl="file://$PROJECT_DIR$/consultai.iml" filepath="$PROJECT_DIR$/consultai.iml" />
       <module fileurl="file://$PROJECT_DIR$/consultai-1.iml" filepath="$PROJECT_DIR$/consultai-1.iml" />
     </modules>

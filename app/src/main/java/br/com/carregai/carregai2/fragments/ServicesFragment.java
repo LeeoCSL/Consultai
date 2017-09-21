@@ -169,6 +169,22 @@ public class ServicesFragment extends Fragment {
             }
         }, hour, min, true);
 
+
+
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+
+        String hora =  String.valueOf(sharedPref.getInt("notification_hour", 0));
+
+
+        Bundle bundle = new Bundle();
+        bundle.putString("hora_alarme", String.valueOf(sharedPref.getInt("notification_hour", 0)) + ":"+ String.valueOf(sharedPref.getInt("notification_minute", 0)));
+        bundle.putString("email", sharedPref.getString("emailParam", " "));
+        bundle.putString("email_google", sharedPref.getString("emailGoogle", ""));
+        bundle.putString("nome",sharedPref.getString("nome", ""));
+        //TODO fb idade sexo tel
+        bundle.putString("email_facebook", sharedPref.getString("emailFB", ""));
+
+        mFirebaseAnalytics.logEvent("configurar_notificacao", bundle);
         dialog.show();
     }
 
@@ -238,27 +254,16 @@ public class ServicesFragment extends Fragment {
                 storeValue("valor_diario", db);
 
                 Utility.makeText(getActivity(), "O seu gasto diário foi salvo.");
+                SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 
                 Bundle bundle = new Bundle();
-                bundle.putFloat("valor_diario", saldo );
-               if (LoginActivity.emailParam != "") {
-                    bundle.putString("email", LoginActivity.emailParam);
-                }
-                if (LoginActivity.emailGoogle != "") {
-                    bundle.putString("email_google", LoginActivity.emailGoogle);
-                }
-                if (LoginActivity.linkFB != "") {
-                    bundle.putString("link_fb", LoginActivity.linkFB);
-                }
-                if (LoginActivity.nomeFB != "") {
-                    bundle.putString("nome", LoginActivity.nomeFB);
-                }
-                if (LoginActivity.idFacebook != "") {
-                    bundle.putString("id", LoginActivity.idFacebook);
-                }
-                if (LoginActivity.emailFB != "") {
-                    bundle.putString("email_facebook", LoginActivity.emailFB);
-                }
+                bundle.putFloat("valor_diario", sharedPref.getFloat("valor_diario", 0) );
+                bundle.putString("email", sharedPref.getString("emailParam", " "));
+                bundle.putString("email_google", sharedPref.getString("emailGoogle", ""));
+                bundle.putString("link_fb", LoginActivity.linkFB);
+                bundle.putString("nome",sharedPref.getString("nome", ""));
+                //TODO fb idade sexo tel
+                bundle.putString("email_facebook", sharedPref.getString("emailFB", ""));
 
                 mFirebaseAnalytics.logEvent("valor_diario", bundle);
 
@@ -318,27 +323,16 @@ public class ServicesFragment extends Fragment {
                 ref.push().setValue(values);
 
                 Utility.makeText(getActivity(), "Sua recarga foi atualizada.");
+                SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 
                 Bundle bundle = new Bundle();
                 bundle.putFloat("valor_recarga",valorRecarga );
-                if (LoginActivity.emailParam != "") {
-                    bundle.putString("email", LoginActivity.emailParam);
-                }
-                if (LoginActivity.emailGoogle != "") {
-                    bundle.putString("email_google", LoginActivity.emailGoogle);
-                }
-                if (LoginActivity.linkFB != "") {
-                    bundle.putString("link_fb", LoginActivity.linkFB);
-                }
-                if (LoginActivity.nomeFB != "") {
-                    bundle.putString("nome", LoginActivity.nomeFB);
-                }
-                if (LoginActivity.idFacebook != "") {
-                    bundle.putString("id", LoginActivity.idFacebook);
-                }
-                if (LoginActivity.emailFB != "") {
-                    bundle.putString("email_facebook", LoginActivity.emailFB);
-                }
+                bundle.putString("email", sharedPref.getString("emailParam", " "));
+                bundle.putString("email_google", sharedPref.getString("emailGoogle", ""));
+                bundle.putString("nome",sharedPref.getString("nome", ""));
+                //TODO fb idade sexo tel
+                bundle.putString("email_facebook", sharedPref.getString("emailFB", ""));
+
 
                 mFirebaseAnalytics.logEvent("valor_recarga", bundle);
             }
@@ -379,10 +373,35 @@ public class ServicesFragment extends Fragment {
         Format formatter = new SimpleDateFormat("EEEE");
         String s = formatter.format(new Date());
 
+
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+
+        Bundle bundle = new Bundle();
+        bundle.putString("email", sharedPref.getString("emailParam", " "));
+        bundle.putString("email_google", sharedPref.getString("emailGoogle", ""));
+        bundle.putString("nome",sharedPref.getString("nome", ""));
+        //TODO fb idade sexo tel
+        bundle.putString("email_facebook", sharedPref.getString("emailFB", ""));
+
+        mFirebaseAnalytics.logEvent("como_funciona", bundle);
+
+
+
+
         startActivity(new Intent(getActivity(), ComoUsarActivity.class));
     }
 
     public void comprai(){
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        Bundle bundle = new Bundle();
+
+
+        bundle.putString("email", sharedPref.getString("emailParam", " "));
+        bundle.putString("email_google", sharedPref.getString("emailGoogle", ""));
+        bundle.putString("nome",sharedPref.getString("nome", ""));
+        //TODO fb idade sexo tel
+        bundle.putString("email_facebook", sharedPref.getString("emailFB", ""));
+        mFirebaseAnalytics.logEvent("clique_botao_comprai", bundle);
         startActivity(new Intent(getActivity(), RechargeActivity.class));
 
     }
@@ -428,24 +447,13 @@ public class ServicesFragment extends Fragment {
                 Utility.makeText(getActivity(), "Seu saldo foi atualizado. [Viagem Extra: R$ " + value + " ]");
 
                 Bundle bundle = new Bundle();
-                if (LoginActivity.emailParam != "") {
-                    bundle.putString("email", LoginActivity.emailParam);
-                }
-                if (LoginActivity.emailGoogle != "") {
-                    bundle.putString("email_google", LoginActivity.emailGoogle);
-                }
-                if (LoginActivity.linkFB != "") {
-                    bundle.putString("link_fb", LoginActivity.linkFB);
-                }
-                if (LoginActivity.nomeFB != "") {
-                    bundle.putString("nome", LoginActivity.nomeFB);
-                }
-                if (LoginActivity.idFacebook != "") {
-                    bundle.putString("id", LoginActivity.idFacebook);
-                }
-                if (LoginActivity.emailFB != "") {
-                    bundle.putString("email_facebook", LoginActivity.emailFB);
-                }
+                bundle.putString("email", sharedPref.getString("emailParam", " "));
+                bundle.putString("email_google", sharedPref.getString("emailGoogle", ""));
+                bundle.putString("nome",sharedPref.getString("nome", ""));
+                //TODO fb idade sexo tel
+
+                bundle.putString("email_facebook", sharedPref.getString("emailFB", ""));
+
                 mFirebaseAnalytics.logEvent("viagem_extra", bundle);
             }
         }
@@ -454,7 +462,7 @@ public class ServicesFragment extends Fragment {
     private void limparCampos() {
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
 
-        SharedPreferences.Editor editor = sharedPref.edit();
+
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle("Limpar campos");
@@ -488,6 +496,16 @@ public class ServicesFragment extends Fragment {
 
                 Utility.makeText(getActivity(), "Seus dados foram limpos");
 
+                Bundle bundle = new Bundle();
+                    bundle.putString("email", sharedPref.getString("emailParam", " "));
+                    bundle.putString("email_google", sharedPref.getString("emailGoogle", ""));
+                    bundle.putString("nome",sharedPref.getString("nome", ""));
+                //TODO fb idade sexo tel
+                    bundle.putString("email_facebook", sharedPref.getString("emailFB", ""));
+
+                mFirebaseAnalytics.logEvent("limpar_campos", bundle);
+
+
             }
         });
         builder.setNegativeButton("Não", new DialogInterface.OnClickListener() {
@@ -498,26 +516,8 @@ public class ServicesFragment extends Fragment {
         });
 
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(getActivity());
-        Bundle bundle = new Bundle();
-        if (LoginActivity.emailParam != "") {
-            bundle.putString("email", LoginActivity.emailParam);
-        }
-        if (LoginActivity.emailGoogle != "") {
-            bundle.putString("email_google", LoginActivity.emailGoogle);
-        }
-        if (LoginActivity.linkFB != "") {
-            bundle.putString("link_fb", LoginActivity.linkFB);
-        }
-        if (LoginActivity.nomeFB != "") {
-            bundle.putString("nome", LoginActivity.nomeFB);
-        }
-        if (LoginActivity.idFacebook != "") {
-            bundle.putString("id", LoginActivity.idFacebook);
-        }
-        if (LoginActivity.emailFB != "") {
-            bundle.putString("email_facebook", LoginActivity.emailFB);
-        }
-        mFirebaseAnalytics.logEvent("limpar_campos", bundle);
+
+
 
         builder.show();
     }

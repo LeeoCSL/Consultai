@@ -1,17 +1,21 @@
 package br.com.carregai.carregai2.activity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.animation.Animation;
 import android.view.animation.RotateAnimation;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.google.firebase.analytics.FirebaseAnalytics;
 
 import br.com.carregai.carregai2.R;
+import br.com.carregai.carregai2.utils.Utility;
 import io.branch.indexing.BranchUniversalObject;
 import io.branch.referral.Branch;
 import io.branch.referral.BranchError;
@@ -48,13 +52,17 @@ public class SplashScreen extends AppCompatActivity {
                     }
 
 //                    eventos firebase com as variaveis
+                    SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+
                     Bundle bundle = new Bundle();
                     bundle.putString("origem", Origem);
                     bundle.putString("campanha", Campanha);
-                    bundle.putString("email", LoginActivity.emailParam);
-                    bundle.putString("link_fb", LoginActivity.linkFB);
-                    bundle.putString("nome", LoginActivity.nomeFB);
-                    bundle.putString("id", LoginActivity.idFacebook);
+                    bundle.putString("email", sharedPref.getString("emailParam", " "));
+                    bundle.putString("email_google", sharedPref.getString("emailGoogle", ""));
+                    bundle.putString("nome",sharedPref.getString("nome", ""));
+                    //TODO fb idade sexo tel
+                    bundle.putString("email_facebook", sharedPref.getString("emailFB", ""));
+                    Toast.makeText(SplashScreen.this,sharedPref.getString("emailParam", " "), Toast.LENGTH_SHORT).show();
                     mFirebaseAnalytics.logEvent("Tracking", bundle);
 
                 }

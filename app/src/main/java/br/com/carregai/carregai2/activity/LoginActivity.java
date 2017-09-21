@@ -3,6 +3,7 @@ package br.com.carregai.carregai2.activity;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.graphics.drawable.AnimationDrawable;
 import android.graphics.drawable.BitmapDrawable;
@@ -10,6 +11,7 @@ import android.graphics.drawable.Drawable;
 import android.graphics.drawable.TransitionDrawable;
 import android.media.Image;
 import android.net.Uri;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -75,7 +77,7 @@ import butterknife.ButterKnife;
 
 public class LoginActivity extends AppCompatActivity {
 
-    public static String emailParam;
+    public static String emailParam ;
     public static String emailGoogle;
     public static String linkFB;
     public static String nomeFB;
@@ -211,10 +213,18 @@ public class LoginActivity extends AppCompatActivity {
                         user.setEmail(authResult.getUser().getEmail());
                         user.setName(authResult.getUser().getDisplayName());
 
+                        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+
+                        SharedPreferences.Editor editor = sharedPref.edit();
+                        editor.putString("emailGoogle",user.getEmail());
+                        editor.putString("nome",user.getName());
+                        editor.commit();
+
                         ref.setValue(user);
 
                         Bundle bundle  = new Bundle();
                         bundle.putString("email_google", user.getEmail());
+                        bundle.putString("nome",sharedPref.getString("nome", ""));
                         mFirebaseAnalytics.logEvent("login_google_ok", bundle);
 
                         Intent intent = new Intent(LoginActivity.this, Main3Activity.class);
@@ -241,6 +251,11 @@ public class LoginActivity extends AppCompatActivity {
 
                 String email = input.getText().toString().trim();
 
+                SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+                SharedPreferences.Editor editor = sharedPref.edit();
+                editor.putString("email_reset", email);
+                editor.commit();
+
                 if(!TextUtils.isEmpty(email)){
                     DialogUtils.loadingDialog(LoginActivity.this);
                     resetPassword(email);
@@ -266,8 +281,10 @@ public class LoginActivity extends AppCompatActivity {
                 .addOnSuccessListener(this, new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
+                        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
                         Bundle bundle = new Bundle();
-                        bundle.putString("email", userEmail);
+                        bundle.putString("email_reset", sharedPref.getString("email_reset", " "));
+
                         mFirebaseAnalytics.logEvent("reset_senha_ok", bundle);
                         DialogUtils.hideLoadingDialog();
                         Toast.makeText(LoginActivity.this, "Acabamos de te enviar as instruções de como recuperar sua conta.", Toast.LENGTH_LONG).show();
@@ -277,8 +294,10 @@ public class LoginActivity extends AppCompatActivity {
             public void onFailure(@NonNull Exception e) {
                 DialogUtils.hideLoadingDialog();
                 if (e.getClass() == FirebaseAuthInvalidUserException.class) {
+                    SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
                     Bundle bundle = new Bundle();
-                    bundle.putString("email", userEmail);
+                    bundle.putString("email_reset", sharedPref.getString("email_reset", " "));
+
                     mFirebaseAnalytics.logEvent("reset_senha_erro", bundle);
                     Toast.makeText(LoginActivity.this,
                             "Usuário não encontrado", Toast.LENGTH_LONG).show();
@@ -286,8 +305,10 @@ public class LoginActivity extends AppCompatActivity {
                     return;
                 }
                 if (e.getClass() == FirebaseException.class) {
+                    SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
                     Bundle bundle = new Bundle();
-                    bundle.putString("email", userEmail);
+                    bundle.putString("email_reset", sharedPref.getString("email_reset", " "));
+
                     mFirebaseAnalytics.logEvent("reset_senha_erro", bundle);
                     Toast.makeText(LoginActivity.this,
                             "Email inválido", Toast.LENGTH_LONG).show();
@@ -322,10 +343,15 @@ public class LoginActivity extends AppCompatActivity {
                 .addOnSuccessListener(this, new OnSuccessListener<AuthResult>() {
                     @Override
                     public void onSuccess(AuthResult authResult) {
-                        Bundle bundle = new Bundle();
-                        bundle.putString("email", userEmail);
-                        mFirebaseAnalytics.logEvent("login_email_ok", bundle);
+                        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 
+                        SharedPreferences.Editor editor = sharedPref.edit();
+                        editor.putString("emailParam",userEmail);
+                        editor.commit();
+
+                        Bundle bundle = new Bundle();
+                        bundle.putString("email", sharedPref.getString("emailParam", " "));
+                        mFirebaseAnalytics.logEvent("login_email_ok", bundle);
 
                     }
                 }).addOnFailureListener(this, new OnFailureListener() {
@@ -373,10 +399,12 @@ public class LoginActivity extends AppCompatActivity {
             public void onSuccess(LoginResult loginResult) {
 
                 Profile profile = Profile.getCurrentProfile();
-                String nomeFB = profile.getName();
+
+                SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+
                 Bundle bundle = new Bundle();
-                bundle.putString("nome_facebook", nomeFB);
-                bundle.putString("email_facebook", userEmail);
+                bundle.putString("nome",sharedPref.getString("nome", ""));
+                bundle.putString("email_facebook", sharedPref.getString("emailFB", ""));
                 mFirebaseAnalytics.logEvent("login_facebook_ok", bundle);
 
                 handleFacebookAcessToken(loginResult.getAccessToken());
@@ -384,17 +412,20 @@ public class LoginActivity extends AppCompatActivity {
 
             @Override
             public void onCancel() {
-
+                SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
                 Bundle bundle = new Bundle();
-                bundle.putString("email", userEmail);
+                bundle.putString("nome",sharedPref.getString("nome", ""));
+                bundle.putString("email_facebook", sharedPref.getString("emailFB", ""));
                 mFirebaseAnalytics.logEvent("login_facebook_cancelado", bundle);
             }
 
             @Override
             public void onError(FacebookException error) {
+                SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 
                 Bundle bundle = new Bundle();
-                bundle.putString("email", userEmail);
+                bundle.putString("nome",sharedPref.getString("nome", ""));
+                bundle.putString("email_facebook", sharedPref.getString("emailFB", ""));
                 mFirebaseAnalytics.logEvent("login_facebook_erro", bundle);
 
                 Toast.makeText(LoginActivity.this, "Erro: " +error.toString(), Toast.LENGTH_LONG).show();
@@ -424,6 +455,14 @@ public class LoginActivity extends AppCompatActivity {
                         user.setName(authResult.getUser().getDisplayName());
                         user.setImage("https://graph.facebook.com/" +token.getUserId()+"/picture?type=small");
 
+                        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+                        SharedPreferences.Editor editor = sharedPref.edit();
+                        editor.putString("nome",user.getName());
+                        editor.putString("emailFB",user.getEmail());
+
+
+
+                        editor.commit();
 
                         Profile currentProfile = Profile.getCurrentProfile();
                         Uri profilePictureUri = currentProfile.getProfilePictureUri(32, 32);

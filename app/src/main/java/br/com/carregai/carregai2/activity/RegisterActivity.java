@@ -125,11 +125,16 @@ public class RegisterActivity extends AppCompatActivity {
                         user.setEmail(userEmail);
                         user.setName(userName);
 
+                        SharedPreferences.Editor editor = sharedPref.edit();
+                        editor.putString("emailParam",userEmail);
+                        editor.putString("nome", userName);
+                        editor.commit();
+
                         ref.setValue(user);
 
                         Bundle bundle  = new Bundle();
-                        bundle.putString("email", userEmail);
-                        bundle.putString("nome", userName);
+                        bundle.putString("email", sharedPref.getString("emailParam", " "));
+                        bundle.putString("nome",sharedPref.getString("nome", ""));
                         mFirebaseAnalytics.logEvent("cadastro_ok", bundle);
 
                         Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
