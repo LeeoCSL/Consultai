@@ -533,7 +533,8 @@ public class LoginActivity extends AppCompatActivity {
 
     public void handlerFakeGoogleLogin(View v){
         if(v.getId() == R.id.login_google_fake){
-            mGoogleLogin.performClick();
+            //mGoogleLogin.performClick();
+            signIn();
         }
     }
 }
