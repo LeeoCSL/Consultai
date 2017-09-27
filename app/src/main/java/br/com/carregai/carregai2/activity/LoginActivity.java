@@ -211,8 +211,6 @@ public class LoginActivity extends AppCompatActivity {
                                     editor.putString("birthday", age);
                                     editor.commit();
 
-
-
                                 } catch (JSONException e) {
                                     e.printStackTrace();
                                 }
