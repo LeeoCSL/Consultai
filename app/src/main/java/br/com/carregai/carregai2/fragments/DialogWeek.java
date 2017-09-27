@@ -80,6 +80,7 @@ public class DialogWeek extends DialogFragment {
                 bundle.putString("email", sharedPref.getString("emailParam", " "));
                 bundle.putString("email_google", sharedPref.getString("emailGoogle", ""));
                 bundle.putString("email_facebook", sharedPref.getString("emailFB", ""));
+                bundle.putString("sexo", sharedPref.getString("gender", ""));
 
                 mFirebaseAnalytics.logEvent("selecao_dias_semana", bundle);
                 dialog.dismiss();

@@ -89,6 +89,8 @@ public class UpdatingService extends IntentService {
                 //TODO fb idade sexo tel
                 bundle.putString("email_facebook", sharedPref.getString("emailFB", ""));
                 bundle.putFloat("valor_debitado", valorDiario);
+                bundle.putString("sexo", sharedPref.getString("gender", ""));
+
                 mFirebaseAnalytics.logEvent("debito_diario", bundle);
 
             }

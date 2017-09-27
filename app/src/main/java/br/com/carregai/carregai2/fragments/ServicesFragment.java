@@ -147,7 +147,7 @@ public class ServicesFragment extends Fragment {
     }
 
 
-    private void setTimer(){
+    private void setTimer() {
 
         final SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getActivity());
         final Calendar calendar = Calendar.getInstance();
@@ -170,18 +170,18 @@ public class ServicesFragment extends Fragment {
         }, hour, min, true);
 
 
-
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 
-        String hora =  String.valueOf(sharedPref.getInt("notification_hour", 0));
+        String hora = String.valueOf(sharedPref.getInt("notification_hour", 0));
 
 
         Bundle bundle = new Bundle();
-        bundle.putString("hora_alarme", String.valueOf(sharedPref.getInt("notification_hour", 0)) + ":"+ String.valueOf(sharedPref.getInt("notification_minute", 0)));
+        bundle.putString("hora_alarme", String.valueOf(sharedPref.getInt("notification_hour", 0)) + ":" + String.valueOf(sharedPref.getInt("notification_minute", 0)));
         bundle.putString("email", sharedPref.getString("emailParam", " "));
         bundle.putString("email_google", sharedPref.getString("emailGoogle", ""));
-        bundle.putString("nome",sharedPref.getString("nome", ""));
+        bundle.putString("nome", sharedPref.getString("nome", ""));
         //TODO fb idade sexo tel
+        bundle.putString("sexo", sharedPref.getString("gender", " "));
         bundle.putString("email_facebook", sharedPref.getString("emailFB", ""));
 
         mFirebaseAnalytics.logEvent("configurar_notificacao", bundle);
@@ -192,7 +192,7 @@ public class ServicesFragment extends Fragment {
 
         ImageView imageView = (ImageView) v.findViewById(R.id.grid_item_image);
 
-        if(currentIndex > mDrawables.length - 1){
+        if (currentIndex > mDrawables.length - 1) {
             currentIndex = 0;
         }
 
@@ -257,12 +257,13 @@ public class ServicesFragment extends Fragment {
                 SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 
                 Bundle bundle = new Bundle();
-                bundle.putFloat("valor_diario", sharedPref.getFloat("valor_diario", 0) );
+                bundle.putFloat("valor_diario", sharedPref.getFloat("valor_diario", 0));
                 bundle.putString("email", sharedPref.getString("emailParam", " "));
                 bundle.putString("email_google", sharedPref.getString("emailGoogle", ""));
                 bundle.putString("link_fb", LoginActivity.linkFB);
-                bundle.putString("nome",sharedPref.getString("nome", ""));
+                bundle.putString("nome", sharedPref.getString("nome", ""));
                 //TODO fb idade sexo tel
+                bundle.putString("sexo", sharedPref.getString("gender", " "));
                 bundle.putString("email_facebook", sharedPref.getString("emailFB", ""));
 
                 mFirebaseAnalytics.logEvent("valor_diario", bundle);
@@ -326,11 +327,12 @@ public class ServicesFragment extends Fragment {
                 SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 
                 Bundle bundle = new Bundle();
-                bundle.putFloat("valor_recarga",valorRecarga );
+                bundle.putFloat("valor_recarga", valorRecarga);
                 bundle.putString("email", sharedPref.getString("emailParam", " "));
                 bundle.putString("email_google", sharedPref.getString("emailGoogle", ""));
-                bundle.putString("nome",sharedPref.getString("nome", ""));
+                bundle.putString("nome", sharedPref.getString("nome", ""));
                 //TODO fb idade sexo tel
+                bundle.putString("sexo", sharedPref.getString("gender", " "));
                 bundle.putString("email_facebook", sharedPref.getString("emailFB", ""));
 
 
@@ -379,32 +381,33 @@ public class ServicesFragment extends Fragment {
         Bundle bundle = new Bundle();
         bundle.putString("email", sharedPref.getString("emailParam", " "));
         bundle.putString("email_google", sharedPref.getString("emailGoogle", ""));
-        bundle.putString("nome",sharedPref.getString("nome", ""));
+        bundle.putString("nome", sharedPref.getString("nome", ""));
         //TODO fb idade sexo tel
+        bundle.putString("sexo", sharedPref.getString("gender", " "));
         bundle.putString("email_facebook", sharedPref.getString("emailFB", ""));
 
         mFirebaseAnalytics.logEvent("como_funciona", bundle);
 
 
-
-
         startActivity(new Intent(getActivity(), ComoUsarActivity.class));
     }
 
-    public void comprai(){
+    public void comprai() {
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         Bundle bundle = new Bundle();
 
 
         bundle.putString("email", sharedPref.getString("emailParam", " "));
         bundle.putString("email_google", sharedPref.getString("emailGoogle", ""));
-        bundle.putString("nome",sharedPref.getString("nome", ""));
+        bundle.putString("nome", sharedPref.getString("nome", ""));
         //TODO fb idade sexo tel
+        bundle.putString("sexo", sharedPref.getString("gender", " "));
         bundle.putString("email_facebook", sharedPref.getString("emailFB", ""));
         mFirebaseAnalytics.logEvent("clique_botao_comprai", bundle);
         startActivity(new Intent(getActivity(), RechargeActivity.class));
 
     }
+
     public void viagemExtra() {
 
 
@@ -449,9 +452,9 @@ public class ServicesFragment extends Fragment {
                 Bundle bundle = new Bundle();
                 bundle.putString("email", sharedPref.getString("emailParam", " "));
                 bundle.putString("email_google", sharedPref.getString("emailGoogle", ""));
-                bundle.putString("nome",sharedPref.getString("nome", ""));
+                bundle.putString("nome", sharedPref.getString("nome", ""));
                 //TODO fb idade sexo tel
-
+                bundle.putString("sexo", sharedPref.getString("gender", " "));
                 bundle.putString("email_facebook", sharedPref.getString("emailFB", ""));
 
                 mFirebaseAnalytics.logEvent("viagem_extra", bundle);
@@ -461,7 +464,6 @@ public class ServicesFragment extends Fragment {
 
     private void limparCampos() {
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
-
 
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
@@ -497,12 +499,13 @@ public class ServicesFragment extends Fragment {
                 Utility.makeText(getActivity(), "Seus dados foram limpos");
 
                 Bundle bundle = new Bundle();
-                    bundle.putString("email", sharedPref.getString("emailParam", " "));
-                    bundle.putString("email_google", sharedPref.getString("emailGoogle", ""));
-                    bundle.putString("nome",sharedPref.getString("nome", ""));
+                bundle.putString("email", sharedPref.getString("emailParam", " "));
+                bundle.putString("email_google", sharedPref.getString("emailGoogle", ""));
+                bundle.putString("nome", sharedPref.getString("nome", ""));
                 //TODO fb idade sexo tel
-                    bundle.putString("email_facebook", sharedPref.getString("emailFB", ""));
-
+                bundle.putString("email_facebook", sharedPref.getString("emailFB", ""));
+                bundle.putString("age", sharedPref.getString("age", ""));
+                bundle.putString("sexo", sharedPref.getString("gender", " "));
                 mFirebaseAnalytics.logEvent("limpar_campos", bundle);
 
 
@@ -516,7 +519,6 @@ public class ServicesFragment extends Fragment {
         });
 
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(getActivity());
-
 
 
         builder.show();

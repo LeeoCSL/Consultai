@@ -23,6 +23,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.blackcat.currencyedittext.CurrencyEditText;
+import com.facebook.login.LoginManager;
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -48,6 +50,8 @@ public class Main3Activity extends AppCompatActivity
     public static final String ORDERS_FRAGMENT = "Recargas";
     public static final int TOTAL_FRAGMENTS = 2;
 
+    private FirebaseAnalytics mFirebaseAnalytics;
+
     @BindView(R.id.main_page_toolbar)
     Toolbar mToolbar;
 
@@ -65,7 +69,7 @@ public class Main3Activity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main3);
-
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
         ButterKnife.bind(this);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.main_page_toolbar);
@@ -162,24 +166,51 @@ public class Main3Activity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
 
         int id = item.getItemId();
-
-        if (id == R.id.nav_camera) {
-
-        } else if (id == R.id.nav_gallery) {
-
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
+          if (id == R.id.nav_manage) {
             startActivity(new Intent(this, SettingsActivity.class));
-        } else if (id == R.id.nav_share) {
-
         } else if (id == R.id.nav_send) {
-
+            signOut();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    private void signOut() {
+        FirebaseAuth.getInstance().signOut();
+        LoginManager.getInstance().logOut();
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+
+        sharedPref.getString("nome", "");
+        sharedPref.getString("emailGoogle", "");
+        sharedPref.getString("emailParam", "");
+        sharedPref.getString("emailFB", "");
+
+
+        Bundle bundle = new Bundle();
+        bundle.putString("email", sharedPref.getString("emailParam", " "));
+        bundle.putString("email_google", sharedPref.getString("emailGoogle", ""));
+        bundle.putString("nome",sharedPref.getString("nome", ""));
+        //TODO fb idade sexo tel
+        bundle.putString("sexo", sharedPref.getString("gender", ""));
+        bundle.putString("email_facebook", sharedPref.getString("emailFB", ""));
+        mFirebaseAnalytics.logEvent("logout", bundle);
+
+
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putString("nome","");
+        editor.putString("emailGoogle", "");
+        editor.putString("emailFB", "");
+        editor.putString("emailParam", "");
+        editor.putString("gender", "");
+        editor.commit();
+
+
+        Intent intent = new Intent(this, LoginActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
+        finish();
     }
 
     /*
