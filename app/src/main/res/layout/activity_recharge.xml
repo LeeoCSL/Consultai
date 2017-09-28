@@ -7,11 +7,13 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context="br.com.carregai.carregai2.activity.RechargeActivity"
-    android:gravity="center">
+    >
 
     <include
         android:id="@+id/toolbar"
-        layout="@layout/toolbar2"/>
+        layout="@layout/toolbar2"
+
+        />
 
     <TextView
         android:layout_width="match_parent"
