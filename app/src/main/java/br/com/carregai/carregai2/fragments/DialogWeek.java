@@ -78,6 +78,7 @@ public class DialogWeek extends DialogFragment {
                     editor.commit();
                 }
                 bundle.putString("email", sharedPref.getString("emailParam", " "));
+                bundle.putString("nome", sharedPref.getString("nome", " "));
                 bundle.putString("email_google", sharedPref.getString("emailGoogle", ""));
                 bundle.putString("email_facebook", sharedPref.getString("emailFB", ""));
                 bundle.putString("sexo", sharedPref.getString("gender", ""));

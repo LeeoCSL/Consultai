@@ -293,6 +293,7 @@ public class LoginActivity extends AppCompatActivity {
                         user.setEmail(authResult.getUser().getEmail());
                         user.setName(authResult.getUser().getDisplayName());
 
+
                         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 
                         SharedPreferences.Editor editor = sharedPref.edit();
