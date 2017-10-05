@@ -3,6 +3,8 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#3b5998</color>
+
+
     <color name="textColor">#000</color>
     <color name="gray">#d7ccc8</color>
     <color name="lightgrey">#e0e0e0</color>
@@ -21,4 +23,8 @@
 
     <color name="azul_fonte">#295396</color>
     <color name="azul_claro">#CADEFA</color>
+
+
+    <color name="branco">#FFFFFF</color>
+
 </resources>

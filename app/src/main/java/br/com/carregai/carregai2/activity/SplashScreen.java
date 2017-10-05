@@ -63,7 +63,6 @@ public class SplashScreen extends AppCompatActivity {
                     //TODO fb idade sexo tel
                     bundle.putString("sexo", sharedPref.getString("gender", ""));
                     bundle.putString("email_facebook", sharedPref.getString("emailFB", ""));
-                    Toast.makeText(SplashScreen.this,sharedPref.getString("emailParam", " "), Toast.LENGTH_SHORT).show();
                     mFirebaseAnalytics.logEvent("Tracking", bundle);
 
                 }
